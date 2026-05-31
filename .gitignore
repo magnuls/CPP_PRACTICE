@@ -1,0 +1,8 @@
+build/
+*.o
+*.obj
+*.dSYM/
+.DS_Store
+compile_commands.json
+.cache/
+.vscode/
