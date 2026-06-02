@@ -7,11 +7,16 @@ EXERCISES := $(notdir $(patsubst %/main.cpp,%,$(wildcard exercises/*/main.cpp)))
 BINS      := $(addprefix $(BUILD)/,$(EXERCISES))
 
 .PHONY: all clean list
-all: $(BINS)
+all: $(BINS) compile_commands.json
 
 # Build rule: compile every .cpp under exercises/<name>/ into build/<name>
+# -MJ also emits a compilation-database fragment for clangd (editor linting).
 $(BUILD)/%: exercises/%/*.cpp | $(BUILD)
-	$(CXX) $(CXXFLAGS) -Iexercises/$* $^ -o $@
+	$(CXX) $(CXXFLAGS) -Iexercises/$* -MJ $(BUILD)/$*.cc.json $^ -o $@
+
+# Merge the per-exercise fragments so the editor knows how each file is compiled.
+compile_commands.json: $(BINS)
+	@sed -e '1s/^/[\n/' -e '$$s/,$$/\n]/' $(BUILD)/*.cc.json > $@
 
 $(BUILD):
 	@mkdir -p $(BUILD)
@@ -24,4 +29,4 @@ list:
 	@echo $(EXERCISES) | tr ' ' '\n'
 
 clean:
-	rm -rf $(BUILD)
+	rm -rf $(BUILD) compile_commands.json

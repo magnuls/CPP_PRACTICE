@@ -1,14 +1,15 @@
 #include <iostream>
 
-class Point {
-   private:
-    int x, y;
+#include "geometry.h"
 
-   public:
-    Point(int u, int v) : x{u}, y{v} {}
-    void setX(int l);
-};
+int main() {
+    Point p{3, 4};
+    p.setX(7);
+    std::cout << "(" << p.getX() << ", " << p.getY() << ")\n";
 
-void Point::setX(int newX) { x = newX; }
+    Point* q = new Point();
+    std::cout << q->getX() << q->getY() << '\n';
+    delete q;
 
-int main() { return 0; }
+    return 0;
+}
