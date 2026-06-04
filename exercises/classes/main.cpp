@@ -3,13 +3,9 @@
 #include "geometry.h"
 
 int main() {
-    Point p{3, 4};
-    p.setX(7);
-    std::cout << "(" << p.getX() << ", " << p.getY() << ")\n";
-
-    Point* q = new Point();
-    std::cout << q->getX() << q->getY() << '\n';
-    delete q;
+    Point* ptr;
+    ptr = new Point[3];
+    std::cout << ptr[0].getX();
 
     return 0;
 }

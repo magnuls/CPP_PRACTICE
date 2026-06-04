@@ -15,8 +15,9 @@ $(BUILD)/%: exercises/%/*.cpp | $(BUILD)
 	$(CXX) $(CXXFLAGS) -Iexercises/$* -MJ $(BUILD)/$*.cc.json $^ -o $@
 
 # Merge the per-exercise fragments so the editor knows how each file is compiled.
+# The second sed strips Apple-vendor flags (-Xclang pairs) that open-source clangd rejects.
 compile_commands.json: $(BINS)
-	@sed -e '1s/^/[\n/' -e '$$s/,$$/\n]/' $(BUILD)/*.cc.json > $@
+	@sed -e '1s/^/[\n/' -e '$$s/,$$/\n]/' $(BUILD)/*.cc.json | sed -E 's/"-Xclang", "[^"]*", //g' > $@
 
 $(BUILD):
 	@mkdir -p $(BUILD)
