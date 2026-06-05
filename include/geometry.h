@@ -25,6 +25,7 @@ class PointArray {
         for (int i = 0; i < size; ++i) {
             ptr[i] = points[i];
         }
+        length = size;
     }
 
     // Copy Constructor
@@ -36,13 +37,14 @@ class PointArray {
             ptr[i] = copy;
         }
     }
-    // Constructors
+    // Desructor
     ~PointArray() {
         delete[] ptr;
-        std::cout << "Object Destroyed!" << '\n';
+        // std::cout << "Object Destroyed!" << '\n';L:w
     }
 
     // Member functions
+    void print_array();
     void push_back(const Point& p);
     void insert(const int position, const Point& p);
     void remove(const int pos);
@@ -61,4 +63,31 @@ class PointArray {
         ptr = new_ptr;
         length = n;
     }
+};
+
+class Polygon {
+   protected:
+    PointArray p_array;
+    static int cnt;
+
+   public:
+    // Constructor
+    Polygon(const Point array[], const int size) : p_array(array, size) {
+        cnt++;
+    }
+
+    // Copy Constructor
+    Polygon(const Polygon& object) : p_array(object.p_array) { cnt++; }
+
+    // Destructor
+    ~Polygon() { cnt--; }
+
+    // Member Functions
+    static int getNumPolygons() { return cnt; }
+
+    const PointArray* getPoints() { return &p_array; }
+
+    virtual double area() = 0;
+
+    virtual int getNumSides() = 0;
 };
