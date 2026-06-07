@@ -12,6 +12,7 @@ class Point {
     int getY() const;
     void setX(int new_x);
     void setY(int new_y);
+    void print_point() const;
 };
 
 class PointArray {
@@ -44,7 +45,7 @@ class PointArray {
     }
 
     // Member functions
-    void print_array();
+    void print_array() const;
     void push_back(const Point& p);
     void insert(const int position, const Point& p);
     void remove(const int pos);
@@ -81,7 +82,6 @@ class Polygon {
 
     // Destructor
     ~Polygon() { cnt--; }
-
     // Member Functions
     static int getNumPolygons() { return cnt; }
 
@@ -89,5 +89,24 @@ class Polygon {
 
     virtual double area() = 0;
 
-    virtual int getNumSides() = 0;
+    int getNumSides() { return p_array.getSize(); }
+};
+
+class Rectangle : public Polygon {
+   public:
+    // Constructor: lowerleft and upper right
+    Rectangle(const Point& lower_l, const Point& upper_r);
+    // Constructor: from 4 ints
+    Rectangle(const int a, const int b, const int c, const int d);
+
+    // Methods
+    double area() override;
+};
+
+class Triangle : public Polygon {
+   public:
+    Triangle(const Point& p1, const Point& p2, const Point& p3);
+
+    // Methods
+    double area() override;
 };
