@@ -1,4 +1,5 @@
 #include <string>
+
 std::string piglatinify(const std::string& word) {
     const std::string vowels = "aeiou";
 
