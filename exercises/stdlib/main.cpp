@@ -1,5 +1,6 @@
 #include <iostream>
 
+#include "graph.h"
 #include "stack.h"
 #include "template.cpp"
 
