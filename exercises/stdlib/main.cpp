@@ -1,3 +1,5 @@
+#include <graph.h>
+
 #include <iostream>
 
 #include "graph.h"
@@ -5,6 +7,7 @@
 #include "template.cpp"
 
 void stack_test();
+void test_graph();
 
 int main() {
     /*
@@ -18,8 +21,31 @@ int main() {
     }
     */
 
-    stack_test();
+    // stack_test();
+    test_graph();
+
     return 0;
+}
+
+void test_graph() {
+    std::vector start = {1, 1, 1, 5, 5, 4};
+    std::vector end = {2, 3, 4, 4, 2, 2};
+
+    Graph g(start, end);
+
+    for (const auto& elem : g) {
+        std::cout << "Number of Adjacent Nodes for " << elem << ": "
+                  << g.numOutgoing(elem) << '\n';
+    }
+    std::cout << std::endl;
+
+    for (const auto& elem : g) {
+        std::vector<int> edges{g.adjacent(elem)};
+        std::cout << "Outgoing Edges Node(" << elem << "): ";
+        std::for_each(edges.cbegin(), edges.cend(),
+                      [&](const int& element) { std::cout << element << " "; });
+        std::cout << std::endl;
+    }
 }
 
 void stack_test() {

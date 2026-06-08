@@ -7,8 +7,8 @@
 
 class Graph {
    private:
-    std::unordered_map<int, std::unordered_set<int>> edges;
-    std::unordered_set<int> verticies;
+    std::unordered_map<int, std::vector<int>> edges;
+    std::unordered_set<int> vertices;
 
    public:
     Graph(const std::vector<int>& starts, const std::vector<int>& ends) {
@@ -16,24 +16,28 @@ class Graph {
             throw std::invalid_argument("Size of starts != Size of ends");
 
         for (size_t i{0}; i < starts.size(); ++i) {
-            verticies.insert(starts[i]);
-            edges[starts[i]].insert(ends[i]);
+            vertices.insert(starts[i]);
+            edges[starts[i]].push_back(ends[i]);
         }
     }
 
     int numOutgoing(const int nodeID) const {
-        if (!(verticies.contains(nodeID)))
+        if (!(vertices.contains(nodeID)))
             throw std::invalid_argument("No nodeID Found");
         return edges.at(nodeID).size();
     }
 
-    const std::vector<int> adjacent(const int nodeID) const {
-        if (!(verticies.contains(nodeID)))
+    const std::vector<int>& adjacent(const int nodeID) const {
+        if (!(vertices.contains(nodeID)))
             throw std::invalid_argument("No nodeID Found");
+        return edges.at(nodeID);
+    }
 
-        std::vector<int> adjacency_list;
-        std::for_each(edges.at(nodeID).cbegin(), edges.at(nodeID).cend(),
-                      [&](const int& node) { adjacency_list.push_back(node); });
-        return adjacency_list;
+    std::unordered_set<int>::const_iterator const begin() {
+        return vertices.begin();
+    }
+
+    std::unordered_set<int>::const_iterator const end() {
+        return vertices.end();
     }
 };
